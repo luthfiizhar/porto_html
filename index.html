@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Luthfi Izhariman — Digital Solutions Partner</title>
 <meta name="description" content="Luthfi Izhariman — Digital Solutions Partner in Jakarta. Designing, building, and integrating web, mobile, and API solutions with a focus on performance and UX.">
-<link rel="icon" type="image/png" href="assets/favicon.png">
+<link rel="icon" type="image/x-icon" href="assets/favicon/favicon.ico"><link rel="icon" type="image/png" sizes="32x32" href="assets/favicon/favicon-32x32.png"><link rel="icon" type="image/png" sizes="16x16" href="assets/favicon/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="assets/favicon/apple-touch-icon.png"><link rel="manifest" href="assets/favicon/site.webmanifest">
 <script>
   /* Apply saved theme before paint to avoid flash */
   (function () {
@@ -15,10 +15,24 @@
     document.documentElement.setAttribute('data-theme', t);
   })();
 </script>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;600&family=Source+Code+Pro:wght@400;500&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="assets/photo_no_bg-640.webp" imagesrcset="assets/photo_no_bg-320.webp 320w, assets/photo_no_bg-520.webp 520w, assets/photo_no_bg-640.webp 640w" imagesizes="(min-width: 445px) 320px, 72vw" type="image/webp" fetchpriority="high">
 <style>
+  /* ============ Fonts ============ */
+  @font-face {
+    font-family: 'Source Sans 3';
+    font-style: normal;
+    font-weight: 300 600;
+    font-display: swap;
+    src: url('assets/fonts/source-sans-3-latin.woff2') format('woff2');
+  }
+  @font-face {
+    font-family: 'Source Code Pro';
+    font-style: normal;
+    font-weight: 400 500;
+    font-display: swap;
+    src: url('assets/fonts/source-code-pro-latin.woff2') format('woff2');
+  }
+
   /* ============ Design tokens ============ */
   :root {
     --bg: #ffffff;
@@ -26,14 +40,17 @@
     --surface: #ffffff;
     --heading: #061b31;
     --label: #273951;
-    --body: #64748d;
-    --muted: #8ea0b5;
+    --body: #5b7089;
+    --muted: #61748d;
     --border: #e5edf5;
     --accent: #533afd;
     --accent-hover: #4434d4;
     --accent-soft: rgba(83, 58, 253, 0.07);
     --accent-soft-2: rgba(83, 58, 253, 0.14);
+    --on-accent: #ffffff;
     --success: #15be53;
+    --success-text: #0f7a37;
+    --error: #c81e5b;
     --footer-bg: #1c1e54;
     --footer-text: rgba(255, 255, 255, 0.72);
     --shadow-1: rgba(23, 23, 23, 0.06) 0 3px 8px;
@@ -49,12 +66,15 @@
     --heading: #eef3f9;
     --label: #c9d6e4;
     --body: #92a6ba;
-    --muted: #647d94;
+    --muted: #7e95ac;
     --border: rgba(148, 180, 214, 0.14);
     --accent: #8b7dff;
     --accent-hover: #a193ff;
     --accent-soft: rgba(139, 125, 255, 0.12);
     --accent-soft-2: rgba(139, 125, 255, 0.22);
+    --on-accent: #081222;
+    --success-text: #4ade80;
+    --error: #ff8fb3;
     --footer-bg: #081222;
     --footer-text: rgba(215, 228, 241, 0.66);
     --shadow-1: rgba(0, 0, 0, 0.35) 0 3px 8px;
@@ -85,7 +105,7 @@
   .container { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
   .skip {
     position: fixed; top: -60px; left: 16px; z-index: 200;
-    background: var(--accent); color: #fff; padding: 8px 14px; border-radius: 4px;
+    background: var(--accent); color: var(--on-accent); padding: 8px 14px; border-radius: 4px;
     font-size: 14px; transition: top .2s;
   }
   .skip:focus { top: 12px; }
@@ -173,8 +193,8 @@
     transition: background .2s, border-color .2s, color .2s, box-shadow .2s;
   }
   .btn svg { width: 16px; height: 16px; }
-  .btn-primary { background: var(--accent); color: #fff; }
-  .btn-primary:hover { background: var(--accent-hover); color: #fff; box-shadow: var(--shadow-2); }
+  .btn-primary { background: var(--accent); color: var(--on-accent); }
+  .btn-primary:hover { background: var(--accent-hover); color: var(--on-accent); box-shadow: var(--shadow-2); }
   .btn-ghost { background: transparent; color: var(--accent); border-color: var(--accent-soft-2); }
   .btn-ghost:hover { background: var(--accent-soft); color: var(--accent); }
   .hero-socials { display: flex; gap: 10px; margin-top: 26px; }
@@ -186,6 +206,7 @@
   .hero-socials a:hover { color: var(--accent); border-color: var(--accent-soft-2); }
   .hero-socials svg { width: 16px; height: 16px; }
   .hero-photo { position: relative; display: flex; flex-direction: column; align-items: center; }
+  .hero-photo picture { display: block; }
   .hero-photo .glow {
     position: absolute; inset: -40px; border-radius: 50%;
     background: radial-gradient(circle, var(--accent-soft-2) 0%, transparent 65%);
@@ -193,7 +214,7 @@
   }
   .hero-photo img {
     position: relative; z-index: 1;
-    width: min(320px, 72vw); aspect-ratio: 1; object-fit: cover;
+    width: min(320px, 72vw); height: auto; aspect-ratio: 1; object-fit: cover;
     object-position: 50% 4%;
     border-radius: 50%; border: 2px solid var(--border);
     box-shadow: var(--shadow-3);
@@ -302,7 +323,7 @@
     font-size: 13px; color: var(--label); cursor: pointer; transition: all .2s;
   }
   .filter-btn:hover { border-color: var(--accent-soft-2); color: var(--accent); }
-  .filter-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .filter-btn.active { background: var(--accent); border-color: var(--accent); color: var(--on-accent); }
   .proj-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px; }
   .proj-card {
     background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
@@ -311,6 +332,7 @@
   }
   .proj-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-3); }
   .proj-card .thumb { aspect-ratio: 16 / 10; overflow: hidden; border-bottom: 1px solid var(--border); background: var(--bg-soft); }
+  .proj-card .thumb picture { display: block; height: 100%; }
   .proj-card .thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform .4s ease; }
   .proj-card:hover .thumb img { transform: scale(1.035); }
   .proj-body { padding: 22px 24px 24px; display: flex; flex-direction: column; gap: 12px; flex: 1; }
@@ -319,6 +341,7 @@
     font-family: 'Source Code Pro', monospace; font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase;
     padding: 3px 9px; border-radius: 4px; color: var(--accent); background: var(--accent-soft);
   }
+  [data-theme="dark"] .tag-mini { color: var(--accent-hover); }
   .proj-card h3 { font-size: 21px; letter-spacing: -0.01em; }
   .proj-card .proj-desc { font-size: 14.5px; line-height: 1.6; }
   .proj-stack { display: flex; flex-wrap: wrap; gap: 7px; margin-top: auto; padding-top: 8px; }
@@ -360,7 +383,8 @@
   }
   .field input:focus, .field textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px var(--accent-soft); }
   .field textarea { resize: vertical; min-height: 130px; }
-  .form-msg { margin-top: 14px; font-size: 14px; color: var(--success); min-height: 1.4em; }
+  .form-msg { margin-top: 14px; font-size: 14px; color: var(--success-text); min-height: 1.4em; }
+  .form-msg.is-error { color: var(--error); }
   .form-note { margin-top: 16px; font-size: 13px; color: var(--muted); }
 
   /* ============ Footer ============ */
@@ -429,7 +453,7 @@
 <nav aria-label="Main navigation">
   <div class="container nav-inner">
     <a href="#home" class="brand" aria-label="Izhrmn — home">
-      <img src="assets/izhrmn-logo.png" alt="" width="600" height="166">
+      <img src="assets/izhrmn-logo-390.png" srcset="assets/izhrmn-logo-260.png 260w, assets/izhrmn-logo-390.png 390w, assets/izhrmn-logo.png 600w" sizes="130px" alt="" width="390" height="108">
     </a>
     <ul class="nav-links">
       <li><a href="#home" class="nav-link" data-target="home">Home</a></li>
@@ -455,7 +479,7 @@
 <div class="drawer-overlay" id="drawer-overlay"></div>
 <aside class="drawer" id="drawer" aria-label="Mobile menu">
   <div class="drawer-head">
-    <span class="brand"><img src="assets/izhrmn-logo.png" alt="Izhrmn" width="600" height="166"></span>
+    <span class="brand"><img src="assets/izhrmn-logo-390.png" srcset="assets/izhrmn-logo-260.png 260w, assets/izhrmn-logo-390.png 390w, assets/izhrmn-logo.png 600w" sizes="130px" alt="Izhrmn" width="390" height="108"></span>
     <button class="icon-btn" id="drawer-close" aria-label="Close menu">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
     </button>
@@ -498,7 +522,10 @@
         </div>
         <div class="hero-photo">
           <div class="glow" aria-hidden="true"></div>
-          <img src="assets/photo_no_bg.png" alt="Portrait of Luthfi Izhariman" width="320" height="320">
+          <picture>
+            <source type="image/webp" srcset="assets/photo_no_bg-320.webp 320w, assets/photo_no_bg-520.webp 520w, assets/photo_no_bg-640.webp 640w" sizes="(min-width: 445px) 320px, 72vw">
+            <img src="assets/photo_no_bg.png" alt="Portrait of Luthfi Izhariman" width="640" height="640" fetchpriority="high">
+          </picture>
           <div class="freelance-badge"><span class="dot"></span>Available for freelance</div>
         </div>
       </div>
@@ -720,13 +747,13 @@
 <script>
   /* ============ Data (from porto_svelte src/lib/data) ============ */
   var PROJECTS = [
-    { title: 'Visitor Management System', desc: 'Web-based application for employee visitor management and a self-service mobile app for visitors.', img: 'assets/projects/vms.png', tags: ['Web', 'Mobile'], stack: ['Flutter', 'Laravel', 'MySQL'] },
-    { title: 'Meeting Room Booking System', desc: 'Web-based meeting room booking application featuring personal calendar integration.', img: 'assets/projects/mrbs.png', tags: ['Web'], stack: ['Flutter', 'Laravel', 'MySQL', 'Google Calendar API'] },
-    { title: 'GA Decentralize System', desc: 'Web-based supply management platform for monthly retail order provisioning and settlement.', img: 'assets/projects/gads.png', tags: ['Web'], stack: ['Flutter', 'Laravel', 'MySQL', 'Firebase'] },
-    { title: 'Property Management Mobile App', desc: 'A dedicated mobile app designed to support and optimize the daily workflows of property and building maintenance officers.', img: 'assets/projects/propman_mobile.png', tags: ['Mobile'], stack: ['Flutter', 'Laravel', 'MySQL', 'Firebase'] },
-    { title: 'Property Management Web', desc: 'Web-based administration platform featuring comprehensive reporting dashboards for property operations oversight.', img: 'assets/projects/propman_web.png', tags: ['Web'], stack: ['Flutter', 'Laravel', 'MySQL', 'Firebase'] },
-    { title: 'E - Medical Record', desc: 'A secure and robust digital medical records platform designed to optimize hospital workflows and patient data administration.', img: 'assets/projects/emr.png', tags: ['Web', 'Mobile'], stack: ['HTML', 'CSS', 'JavaScript', 'PHP', 'PostgreSQL'] },
-    { title: 'Online Attendance', desc: 'A modern biometric attendance application utilizing facial recognition APIs for secure and automated check-ins.', img: 'assets/projects/absensi.png', tags: ['Mobile'], stack: ['Flutter', 'CodeIgniter', 'PostgreSQL', 'Python'] }
+    { title: 'Visitor Management System', desc: 'Web-based application for employee visitor management and a self-service mobile app for visitors.', img: 'assets/projects/vms.png', w: 667, h: 400, tags: ['Web', 'Mobile'], stack: ['Flutter', 'Laravel', 'MySQL'] },
+    { title: 'Meeting Room Booking System', desc: 'Web-based meeting room booking application featuring personal calendar integration.', img: 'assets/projects/mrbs.png', w: 667, h: 400, tags: ['Web'], stack: ['Flutter', 'Laravel', 'MySQL', 'Google Calendar API'] },
+    { title: 'GA Decentralize System', desc: 'Web-based supply management platform for monthly retail order provisioning and settlement.', img: 'assets/projects/gads.png', w: 666, h: 400, tags: ['Web'], stack: ['Flutter', 'Laravel', 'MySQL', 'Firebase'] },
+    { title: 'Property Management Mobile App', desc: 'A dedicated mobile app designed to support and optimize the daily workflows of property and building maintenance officers.', img: 'assets/projects/propman_mobile.png', w: 666, h: 400, tags: ['Mobile'], stack: ['Flutter', 'Laravel', 'MySQL', 'Firebase'] },
+    { title: 'Property Management Web', desc: 'Web-based administration platform featuring comprehensive reporting dashboards for property operations oversight.', img: 'assets/projects/propman_web.png', w: 999, h: 600, tags: ['Web'], stack: ['Flutter', 'Laravel', 'MySQL', 'Firebase'] },
+    { title: 'E - Medical Record', desc: 'A secure and robust digital medical records platform designed to optimize hospital workflows and patient data administration.', img: 'assets/projects/emr.png', w: 999, h: 600, tags: ['Web', 'Mobile'], stack: ['HTML', 'CSS', 'JavaScript', 'PHP', 'PostgreSQL'] },
+    { title: 'Online Attendance', desc: 'A modern biometric attendance application utilizing facial recognition APIs for secure and automated check-ins.', img: 'assets/projects/absensi.png', w: 666, h: 400, tags: ['Mobile'], stack: ['Flutter', 'CodeIgniter', 'PostgreSQL', 'Python'] }
   ];
 
   var TIMELINE = [
@@ -804,7 +831,7 @@
   var html = '';
   PROJECTS.forEach(function (p) {
     html += '<article class="proj-card reveal" data-tags="' + p.tags.join(' ') + '">' +
-      '<div class="thumb"><img src="' + p.img + '" alt="' + p.title.replace(/&/g, '&amp;') + ' screenshot" loading="lazy"></div>' +
+      '<div class="thumb"><picture><source type="image/webp" srcset="' + p.img.replace(/\.png$/, '.webp') + '"><img src="' + p.img + '" alt="' + p.title.replace(/&/g, '&amp;') + ' screenshot" width="' + p.w + '" height="' + p.h + '" loading="lazy" decoding="async"></picture></div>' +
       '<div class="proj-body">' +
         '<div class="proj-tags">' + p.tags.map(function (t) { return '<span class="tag-mini">' + t + '</span>'; }).join('') + '</div>' +
         '<h3>' + p.title + '</h3>' +
@@ -895,13 +922,13 @@
     var name = document.getElementById('f-name').value.trim();
     var email = document.getElementById('f-email').value.trim();
     var msg = document.getElementById('f-msg').value.trim();
-    if (!name || !email || !msg) { formMsg.textContent = 'Please fill in all fields.'; formMsg.style.color = '#ea2261'; return; }
+    if (!name || !email || !msg) { formMsg.textContent = 'Please fill in all fields.'; formMsg.classList.add('is-error'); return; }
     var subject = 'New message from Luthfi Izhariman portfolio';
     var body = 'Name: ' + name + '\nEmail: ' + email + '\n\n' + msg;
     var href = 'mailto:luthfiizhar@gmail.com?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
     window.location.href = href;
     formMsg.textContent = 'Opening your email app…';
-    formMsg.style.color = '';
+    formMsg.classList.remove('is-error');
   });
 
   /* ============ Year ============ */

@@ -1,0 +1,23 @@
+{
+  "name": "Luthfi Izhariman — Digital Solutions Partner",
+  "short_name": "Izhrmn",
+  "description": "Luthfi Izhariman — Digital Solutions Partner in Jakarta. Designing, building, and integrating web, mobile, and API solutions.",
+  "lang": "en",
+  "start_url": "../../",
+  "scope": "../../",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#533afd",
+  "icons": [
+    {
+      "src": "android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
