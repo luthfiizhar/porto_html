@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Luthfi Izhariman — Software Developer</title>
-<meta name="description" content="Luthfi Izhariman — Software Developer in Jakarta. Building responsive web and mobile apps with a focus on performance and UX.">
+<title>Luthfi Izhariman — Digital Solutions Partner</title>
+<meta name="description" content="Luthfi Izhariman — Digital Solutions Partner in Jakarta. Designing, building, and integrating web, mobile, and API solutions with a focus on performance and UX.">
 <link rel="icon" type="image/png" href="assets/favicon.png">
 <script>
   /* Apply saved theme before paint to avoid flash */
@@ -99,8 +99,11 @@
     border-bottom: 1px solid var(--border);
   }
   .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 66px; }
-  .brand { font-family: 'Source Code Pro', monospace; font-size: 17px; font-weight: 500; color: var(--heading); letter-spacing: 0.02em; }
+  .brand { display: inline-flex; align-items: center; font-family: 'Source Code Pro', monospace; font-size: 17px; font-weight: 500; color: var(--heading); letter-spacing: 0.02em; }
+  .brand img { display: block; height: 36px; width: auto; transition: opacity .2s, filter .35s ease; }
   .brand:hover { color: var(--accent); }
+  .brand:hover img { opacity: .78; }
+  [data-theme="dark"] .brand img { filter: invert(1) hue-rotate(180deg); }
   .nav-links { display: flex; align-items: center; gap: 6px; list-style: none; }
   .nav-links a {
     display: inline-block; padding: 8px 14px; border-radius: 6px;
@@ -154,8 +157,13 @@
   .eyebrow { font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 18px; }
   .hero h1 { font-size: clamp(42px, 6vw, 66px); letter-spacing: -0.025em; line-height: 1.02; }
   .role-line { font-size: clamp(19px, 2.4vw, 24px); color: var(--label); margin-top: 16px; min-height: 1.6em; }
-  .role-line .role { font-weight: 400; color: var(--accent); display: inline-block; transition: opacity .25s; }
-  .role-line .role.fading { opacity: 0; }
+  .role-line .role { font-weight: 400; color: var(--accent); display: inline-block; }
+  .role-line .caret {
+    display: inline-block; width: 2px; height: 1.05em; margin-left: 3px;
+    background: var(--accent); vertical-align: -0.12em;
+    animation: caret-blink 1s steps(1) infinite;
+  }
+  @keyframes caret-blink { 0%, 45% { opacity: 1; } 50%, 100% { opacity: 0; } }
   .hero-desc { margin-top: 22px; max-width: 520px; font-size: 17px; line-height: 1.65; color: var(--body); }
   .hero-cta { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-top: 32px; }
   .btn {
@@ -199,15 +207,20 @@
   }
   .freelance-badge .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--success); box-shadow: 0 0 0 3px rgba(21, 190, 83, 0.2); }
 
-  /* Stats */
+  /* Current status strip */
   .stats { margin-top: 72px; border-top: 1px solid var(--border); }
   .stats-inner { display: grid; grid-template-columns: repeat(4, 1fr); }
-  .stat { padding: 26px 18px 6px; border-right: 1px solid var(--border); }
+  .stat { padding: 24px 22px 20px; border-right: 1px solid var(--border); }
   .stat:first-child { padding-left: 0; }
   .stat:last-child { border-right: none; }
-  .stat .num { font-size: 40px; font-weight: 300; color: var(--heading); letter-spacing: -0.02em; line-height: 1; }
-  .stat .num .plus { color: var(--accent); font-family: 'Source Code Pro', monospace; font-size: 22px; }
-  .stat .lbl { margin-top: 10px; font-size: 13.5px; color: var(--muted); }
+  .stat .lbl {
+    font-family: 'Source Code Pro', monospace; font-size: 11px; font-weight: 500; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--body); margin-bottom: 9px; line-height: 1.4;
+  }
+  .stat .val { font-size: 16px; font-weight: 400; color: var(--label); line-height: 1.45; text-wrap: pretty; }
+  .stat .val .at { color: var(--body); font-weight: 300; }
+  .stat .status { display: inline-flex; align-items: center; gap: 8px; }
+  .stat .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--success); box-shadow: 0 0 0 3px rgba(21, 190, 83, 0.18); flex: none; }
 
   /* ============ Sections ============ */
   section.block { padding: 96px 0; }
@@ -371,6 +384,7 @@
     html { scroll-behavior: auto; }
     *, *::before, *::after { transition: none !important; animation: none !important; }
     .reveal { opacity: 1; transform: none; }
+    .role-line .caret { display: none; }
   }
 
   /* ============ Responsive ============ */
@@ -380,20 +394,31 @@
     .hero-photo { order: -1; }
     .freelance-badge { position: static; margin-top: 16px; }
     .stats-inner { grid-template-columns: repeat(2, 1fr); }
+    .stat { padding: 20px 18px; }
+    .stat:nth-child(odd) { padding-left: 0; }
     .stat:nth-child(2) { border-right: none; }
     .stat:nth-child(1), .stat:nth-child(2) { border-bottom: 1px solid var(--border); }
     .service-row { grid-template-columns: 44px 1fr; gap: 16px; padding: 26px 4px; }
     section.block { padding: 68px 0; }
     .proj-grid { grid-template-columns: 1fr; }
   }
-  @media (max-width: 640px) {
-    .nav-links, .nav-actions #theme-toggle { display: none; }
+  @media (max-width: 760px) {
+    .nav-links { display: none; }
     #hamburger { display: inline-flex; }
+  }
+  @media (max-width: 640px) {
+    .nav-actions #theme-toggle { display: none; }
     .hero h1 { font-size: 38px; }
     .info-grid { grid-template-columns: 1fr; }
     .tl-date { margin-left: 0; width: 100%; }
-    .stat .num { font-size: 32px; }
+    .stat .val { font-size: 15px; }
     .form-card { padding: 24px; }
+  }
+  @media (max-width: 480px) {
+    .stats-inner { grid-template-columns: 1fr; }
+    .stat { border-right: none; border-bottom: 1px solid var(--border); padding: 18px 0; }
+    .stat:last-child { border-bottom: none; }
+    .stat:nth-child(1), .stat:nth-child(2) { border-bottom: 1px solid var(--border); }
   }
 </style>
 </head>
@@ -403,7 +428,9 @@
 <!-- ============ Navbar ============ -->
 <nav aria-label="Main navigation">
   <div class="container nav-inner">
-    <a href="#home" class="brand">Izhrmn</a>
+    <a href="#home" class="brand" aria-label="Izhrmn — home">
+      <img src="assets/izhrmn-logo.png" alt="" width="600" height="166">
+    </a>
     <ul class="nav-links">
       <li><a href="#home" class="nav-link" data-target="home">Home</a></li>
       <li><a href="#about" class="nav-link" data-target="about">About</a></li>
@@ -428,7 +455,7 @@
 <div class="drawer-overlay" id="drawer-overlay"></div>
 <aside class="drawer" id="drawer" aria-label="Mobile menu">
   <div class="drawer-head">
-    <span class="brand">Izhrmn</span>
+    <span class="brand"><img src="assets/izhrmn-logo.png" alt="Izhrmn" width="600" height="166"></span>
     <button class="icon-btn" id="drawer-close" aria-label="Close menu">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
     </button>
@@ -447,10 +474,10 @@
     <div class="container">
       <div class="hero-inner">
         <div class="hero-text">
-          <p class="eyebrow mono">Software Developer — Jakarta, Indonesia</p>
+          <p class="eyebrow mono">Digital Solutions Partner — Jakarta, Indonesia</p>
           <h1>Luthfi Izhariman</h1>
-          <p class="role-line"><span class="role" id="role">Software Developer</span></p>
-          <p class="hero-desc">Full-cycle software work: clean interfaces, web and mobile apps, secure APIs, and reliable hosting.</p>
+          <p class="role-line"><span class="role" id="role">Software Developer</span><span class="caret" aria-hidden="true"></span></p>
+          <p class="hero-desc">I design, build, and integrate digital solutions — from interfaces and APIs to deployment.</p>
           <div class="hero-cta">
             <a class="btn btn-primary" href="assets/CVLuthfi.pdf" download>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
@@ -475,13 +502,25 @@
           <div class="freelance-badge"><span class="dot"></span>Available for freelance</div>
         </div>
       </div>
-      <div class="stats">
-        <div class="stats-inner">
-          <div class="stat"><div class="num"><span data-count="8">0</span><span class="plus">+</span></div><div class="lbl">Years of experience</div></div>
-          <div class="stat"><div class="num"><span data-count="20">0</span><span class="plus">+</span></div><div class="lbl">Projects completed</div></div>
-          <div class="stat"><div class="num"><span data-count="15">0</span><span class="plus">+</span></div><div class="lbl">Stack tech mastered</div></div>
-          <div class="stat"><div class="num"><span data-count="999">0</span><span class="plus">+</span></div><div class="lbl">Code commits</div></div>
-        </div>
+      <div class="stats" role="group" aria-label="Current status">
+        <dl class="stats-inner">
+          <div class="stat">
+            <dt class="lbl">Role</dt>
+            <dd class="val">Front-End Developer <span class="at">at</span> Kawan Lama Group Corp.</dd>
+          </div>
+          <div class="stat">
+            <dt class="lbl">Based in</dt>
+            <dd class="val">Jakarta, Indonesia</dd>
+          </div>
+          <div class="stat">
+            <dt class="lbl">Focus</dt>
+            <dd class="val">Web &amp; mobile applications</dd>
+          </div>
+          <div class="stat">
+            <dt class="lbl">Availability</dt>
+            <dd class="val"><span class="status"><span class="dot" aria-hidden="true"></span>Open for freelance</span></dd>
+          </div>
+        </dl>
       </div>
     </div>
   </section>
@@ -491,12 +530,12 @@
     <div class="container">
       <div class="sec-head reveal">
         <p class="sec-label mono">01 · About</p>
-        <h2>Full-cycle engineer with a product mindset</h2>
-        <p>Full-cycle software work: clean interfaces, web and mobile apps, secure APIs, and reliable hosting.</p>
+        <h2>Digital solutions with a product mindset</h2>
+        <p>End-to-end digital work: clean interfaces, web and mobile apps, secure APIs, and reliable hosting.</p>
       </div>
       <div class="about-grid">
         <div class="reveal">
-          <p>I'm a Software Developer based in Jakarta, building responsive web and mobile applications with a focus on performance and user experience. I began my career as an IT Engineer and grew into full-stack roles, working across Flutter, JavaScript/TypeScript, PHP, and Python. Today I work as a Front-End Developer at Kawan Lama Group Corp., where I focus on delivering responsive, user-centric experiences and optimizing web application performance.</p>
+          <p>I'm a digital solutions partner based in Jakarta, building responsive web and mobile applications with a focus on performance and user experience. I began my career as an IT Engineer and grew into full-stack roles, working across Flutter, JavaScript/TypeScript, PHP, and Python. Today I work as a Front-End Developer at Kawan Lama Group Corp., where I focus on delivering responsive, user-centric experiences and optimizing web application performance.</p>
           <div class="availability"><span class="dot"></span>Freelance work: available</div>
         </div>
         <div class="reveal">
@@ -659,7 +698,7 @@
     <div class="foot-inner">
       <div>
         <div class="foot-brand">Izhrmn</div>
-        <p class="foot-tag">Software Developer — Jakarta, Indonesia</p>
+        <p class="foot-tag">Digital Solutions Partner — Jakarta, Indonesia</p>
       </div>
       <ul class="foot-links">
         <li><a href="https://github.com/luthfiizhar" target="_blank" rel="noopener noreferrer">
@@ -708,7 +747,7 @@
     { title: 'Front End Developer', sub: 'Kawan Lama Corp.', date: 'Apr 2026', desc: 'Developing Inventory Management System web and mobile application for supporting operational activities related to building maintenance.' }
   ];
 
-  var ROLES = ['Software Developer', 'Web Developer', 'Mobile Developer', 'Full Stack Developer'];
+  var ROLES = ['Software Developer', 'UI/UX Designer', 'System Integrator'];
   var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ============ Theme toggle ============ */
@@ -719,32 +758,45 @@
     try { localStorage.setItem('theme', next); } catch (e) {}
   });
 
-  /* ============ Rotating role ============ */
+  /* ============ Typing role ============ */
   var roleEl = document.getElementById('role');
   var roleIdx = 0;
-  setInterval(function () {
-    if (reduceMotion) return;
-    roleEl.classList.add('fading');
-    setTimeout(function () {
-      roleIdx = (roleIdx + 1) % ROLES.length;
-      roleEl.textContent = ROLES[roleIdx];
-      roleEl.classList.remove('fading');
-    }, 240);
-  }, 2600);
+  var charIdx = ROLES[0].length;
+  var deleting = false;
+  var typeSpeed = 75;
+  var deleteSpeed = 42;
+  var holdDelay = 1800;
+  var nextDelay = 380;
 
-  /* ============ Count-up stats ============ */
-  function animateCount(el) {
-    var target = parseInt(el.getAttribute('data-count'), 10);
-    if (reduceMotion) { el.textContent = target; return; }
-    var start = null, dur = 1200;
-    function step(ts) {
-      if (!start) start = ts;
-      var p = Math.min((ts - start) / dur, 1);
-      var eased = 1 - Math.pow(1 - p, 3);
-      el.textContent = Math.round(target * eased);
-      if (p < 1) requestAnimationFrame(step);
+  function typeRole() {
+    if (reduceMotion) { roleEl.textContent = ROLES[0]; return; }
+    var word = ROLES[roleIdx];
+    if (!deleting) {
+      if (charIdx < word.length) {
+        charIdx++;
+        roleEl.textContent = word.slice(0, charIdx);
+        setTimeout(typeRole, typeSpeed);
+      } else {
+        deleting = true;
+        setTimeout(typeRole, holdDelay);
+      }
+    } else {
+      if (charIdx > 0) {
+        charIdx--;
+        roleEl.textContent = word.slice(0, charIdx);
+        setTimeout(typeRole, deleteSpeed);
+      } else {
+        deleting = false;
+        roleIdx = (roleIdx + 1) % ROLES.length;
+        setTimeout(typeRole, nextDelay);
+      }
     }
-    requestAnimationFrame(step);
+  }
+
+  if (reduceMotion) {
+    roleEl.textContent = ROLES[0];
+  } else {
+    setTimeout(typeRole, holdDelay);
   }
 
   /* ============ Inject projects ============ */
@@ -798,18 +850,6 @@
     });
   }, { threshold: 0.12 });
   document.querySelectorAll('.reveal').forEach(function (el) { revealObs.observe(el); });
-
-  /* ============ Stats trigger ============ */
-  var statsObs = new IntersectionObserver(function (entries) {
-    entries.forEach(function (e) {
-      if (e.isIntersecting) {
-        e.target.querySelectorAll('[data-count]').forEach(animateCount);
-        statsObs.unobserve(e.target);
-      }
-    });
-  }, { threshold: 0.4 });
-  var statsWrap = document.querySelector('.stats-inner');
-  if (statsWrap) statsObs.observe(statsWrap);
 
   /* ============ Active nav link ============ */
   var sections = ['home', 'about', 'services', 'resume', 'projects', 'contact'];
