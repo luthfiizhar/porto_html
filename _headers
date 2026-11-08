@@ -1,0 +1,65 @@
+# _headers — Cloudflare Pages
+# Disalin ke dist/ oleh build.sh, lalu dipakai Pages untuk respons aset statis.
+# File ini sendiri TIDAK ikut disajikan sebagai aset.
+#
+# Aturan penting:
+# 1. Semua pola yang cocok akan DIGABUNG. Kalau header yang sama muncul di dua
+#    pola, nilainya di-join dengan koma (Cache-Control jadi tidak valid).
+#    Karena itu Cache-Control hanya dipasang di pola yang saling eksklusif.
+# 2. Maksimal 100 blok aturan; tiap baris maksimal 2.000 karakter.
+# 3. Untuk melepas header bawaan: tulis "! Nama-Header" di bawah pola.
+
+# ---------------------------------------------------------------------------
+# Semua path: header keamanan dasar.
+# Tidak memasang Cache-Control, jadi cache HTML tetap ikut default Pages
+# (public, max-age=0, must-revalidate).
+# ---------------------------------------------------------------------------
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: DENY
+  Permissions-Policy: geolocation=(), camera=(), microphone=(), payment=(), usb=(), interest-cohort=()
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; manifest-src 'self'; connect-src 'self'; form-action 'self' mailto:; frame-ancestors 'none'; base-uri 'self'; object-src 'none'
+
+# ---------------------------------------------------------------------------
+# Caching per kelompok aset.
+# Nama file di project ini TIDAK ber-hash, jadi "immutable 1 tahun" hanya
+# dipakai untuk font (isinya praktis beku). Gambar/screenshot cukup 1 hari;
+# ganti nama file (mis. vms-2026.webp) kalau ingin cache panjang.
+# ---------------------------------------------------------------------------
+
+# Font WOFF2 self-hosted: isi tidak berubah untuk nama file yang sama.
+/assets/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Screenshot proyek (PNG fallback + WebP yang dipilih lewat JS).
+/assets/projects/*
+  Cache-Control: public, max-age=86400
+
+# Foto hero WebP responsif.
+/assets/photo_no_bg-*.webp
+  Cache-Control: public, max-age=86400
+
+# Foto hero fallback PNG.
+/assets/photo_no_bg.png
+  Cache-Control: public, max-age=86400
+
+# Logo navbar/drawer (tiga varian srcset).
+/assets/izhrmn-logo*.png
+  Cache-Control: public, max-age=604800
+
+# Favicon + site.webmanifest.
+/assets/favicon/*
+  Cache-Control: public, max-age=604800
+
+# CV: sengaja tanpa cache lama supaya file baru langsung terpakai saat
+# rekruter mengunduh. ETag tetap membuat revalidasi murah (304).
+/assets/CVLuthfi.pdf
+  Cache-Control: public, max-age=0, must-revalidate
+
+# ---------------------------------------------------------------------------
+# Deployment preview (branch selain main) jangan sampai terindeks mesin pencari,
+# supaya tidak ada duplikat konten dengan domain produksi.
+# ---------------------------------------------------------------------------
+https://:version.:project.pages.dev/*
+  X-Robots-Tag: noindex

@@ -196,6 +196,40 @@ Verifikasi lokal sebelum push:
 Catatan: `assets/projects/*.webp` **dipakai** (dibentuk via JS
 `p.img.replace(/\.png$/, '.webp')` di baris ±834), jadi jangan dibuang oleh build.
 
+### 3b. `_headers`
+
+`_headers` di root repo (disalin ke `dist/` oleh `build.sh`) mengatur:
+
+- Header keamanan di semua path: `X-Content-Type-Options`, `Referrer-Policy`,
+  `X-Frame-Options: DENY`, `Permissions-Policy`, dan CSP.
+- Cache per kelompok aset: font 1 tahun `immutable`, screenshot proyek & foto hero
+  1 hari, logo & favicon 1 minggu, `CVLuthfi.pdf` `max-age=0, must-revalidate`.
+- `X-Robots-Tag: noindex` untuk preview deployment (`https://:version.:project.pages.dev/*`)
+  supaya branch preview tidak bersaing dengan domain produksi di mesin pencari.
+
+CSP sengaja memakai `script-src 'self' 'unsafe-inline'` (bukan hash) karena
+`index.html` berisi 2 inline `<script>`. Dengan CSP berbasis hash, setiap perubahan
+inline JS akan memblokir script dan membuat grid proyek serta timeline kosong
+(lihat risiko R1). Kalau suatu saat pindah ke hash, hash wajib dihitung ulang
+setiap inline script berubah — dan jangan lupa `style-src` butuh `'unsafe-inline'`
+karena ada 2 atribut `style="..."`.
+
+Aturan `_headers` yang mudah menjebak: header dengan nama sama dari dua pola yang
+sama-sama cocok akan **digabung dengan koma**. Karena itu `Cache-Control` tidak
+dipasang di `/*`, hanya di pola `/assets/...` yang saling eksklusif.
+
+Verifikasi lokal (Pages meniru `_headers`, `python -m http.server` tidak):
+
+```bash
+./build.sh && npx wrangler pages dev dist
+curl -sI http://127.0.0.1:8788/assets/fonts/source-sans-3-latin.woff2 | grep -i cache-control
+```
+
+Catatan dev lokal: `wrangler pages dev` mengembalikan `index.html` untuk path yang
+tidak ada (bukan 404) dan error 502 untuk path `/_headers`. Di produksi `_headers`
+tidak disajikan sebagai aset.
+
+
 
 ---
 
