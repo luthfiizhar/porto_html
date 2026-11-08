@@ -16,6 +16,8 @@
 
 - Proyek ini **satu file** `index.html` tanpa build tool, tanpa backend, tanpa `package.json`.
   Jangan menambahkan framework, bundler, atau dependency baru tanpa permintaan eksplisit.
+  Pengecualian yang sudah disepakati: `build.sh` (skrip salin untuk artefak deploy
+  Cloudflare Pages), bukan bundler dan tidak dipakai untuk development lokal.
 - Pertahankan karakter visual: **Light Elegant / Stripe-like**, light + dark mode, tipografi ringan.
 - Gunakan CSS custom property yang sudah ada di `:root` dan `[data-theme="dark"]`.
   Jangan hardcode warna baru di komponen tanpa alasan.
@@ -40,7 +42,7 @@ langsung dibuka di browser, tanpa server dan tanpa proses build.
 | Aspek | Kondisi |
 |---|---|
 | Entry point | `index.html` (937 baris, ±55 KB) |
-| Build | Tidak ada |
+| Build | Tidak ada untuk development; deploy memakai `build.sh` → `dist/` |
 | Backend | Tidak ada |
 | Dependency runtime | Tidak ada; font WOFF2 di-host lokal (`assets/fonts/`) |
 | Data | Array JS inline + markup statis |
@@ -138,7 +140,8 @@ porto_html/
 ├── index.html                 # seluruh markup, CSS, dan JS
 ├── PLAN.md                    # rencana awal (status: selesai)
 ├── AGENTS.md                  # dokumen ini
-├── .gitignore                 # .DS_Store, *.log, *.tmp
+├── .gitignore                 # .DS_Store, *.log, *.tmp, dist/
+├── build.sh                   # salin index.html + assets ke dist/ (artefak deploy)
 └── assets/
     ├── favicon/               # ikon 16/32/192/512, favicon.ico, apple-touch, manifest
     ├── izhrmn-logo.png        # 600×166, 12 KB, fallback logo transparan
@@ -168,6 +171,31 @@ porto_html/
 ```
 
 **Tidak ada**: `package.json`, test, linter, CI, README, `robots.txt`, `sitemap.xml`.
+
+### 3a. Deploy (Cloudflare Pages)
+
+Hosting: Cloudflare Pages, project `porto-html`, terhubung ke repo GitHub
+`luthfiizhar/porto_html` (auto-deploy tiap push ke `main`).
+
+- Framework preset: None
+- Build command: `bash build.sh`
+- Build output directory: `dist`
+
+Alasan memakai `dist/`: root repo berisi `AGENTS.md` dan `PLAN.md`. Kalau output
+di-set `/`, kedua dokumen internal itu ikut ter-publish dan bisa dibaca publik di
+`/AGENTS.md`. `build.sh` hanya menyalin `index.html` + `assets/` yang direferensikan,
+sekaligus membuang 5 aset tak terpakai (±0,72 MB).
+
+Verifikasi lokal sebelum push:
+
+```bash
+./build.sh && python3 -m http.server -d dist 8000
+# pastikan /AGENTS.md dan /PLAN.md -> 404
+```
+
+Catatan: `assets/projects/*.webp` **dipakai** (dibentuk via JS
+`p.img.replace(/\.png$/, '.webp')` di baris ±834), jadi jangan dibuang oleh build.
+
 
 ---
 
